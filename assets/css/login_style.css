@@ -1,0 +1,145 @@
+.loginBox .title{
+  padding: 15px 0;
+  text-align: center;
+  background-color: var(--color1);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.registerBox .title{
+  padding: 15px 0;
+  text-align: center;
+  background-color: var(--color3);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.title h1{
+  font-size: 45px;
+  margin: 5px;
+  color: white;
+}
+.title label {
+  color: white;
+  font-size: 25px;
+  font-weight: bolder;
+}
+.form-container{
+  height: 35vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.form-container form {
+  display: grid;
+  width: 70%;
+}
+
+.loginBox .form-container label {
+  padding-left: 12px;
+  font-size: 20px;
+  color: #505050;
+  font-weight: bold;
+}
+.loginBox .form-container input{
+  background: #dfdfdf;
+  border: none;
+  padding: 0 10px;
+  width: 100%;
+  height: 35px;
+  font-size: 25px;
+  border-radius: 20px;
+}
+
+.registerBox .form-container label {
+  padding-left: 12px;
+  font-size: 15px;
+  color: #505050;
+  font-weight: bold;
+}
+.registerBox .form-container input{
+  background: #dfdfdf;
+  border: none;
+  padding: 0 10px;
+  width: 100%;
+  height: 35px;
+  font-size: 20px;
+  border-radius: 20px;
+}
+
+.loginBox .form-container input:focus-visible{
+  outline: var(--color1) solid 2px;
+}
+.registerBox .form-container input:focus-visible{
+  outline: var(--color3) solid 2px;
+}
+#button-container{
+  display: grid;
+  justify-content: center;
+  margin-top: 20px;
+}
+#button-container p {
+  margin: 2px;
+  justify-self: center;
+}
+.loginBox .button{
+  font-size: 20px;
+  font-weight: bolder;
+  color: white;
+  background-color: var(--color1);
+  border: none;
+  width: 150px;
+  height: 40px;
+  border-radius: 20px;
+}
+.loginBox .button:hover{
+  background-color: var(--color1hv);
+}
+.registerBox .button{
+  font-size: 15px;
+  font-weight: bolder;
+  color: white;
+  background-color: var(--color3);
+  border: none;
+  width: 150px;
+  height: 35px;
+  border-radius: 20px;
+}
+.registerBox .button:hover{
+  background-color: var(--color3hv);
+}
+.form-footer{
+  display: grid;
+  justify-content: center;
+  font-size: 17px;
+}
+.loginBox .footer-div {
+  display: flex;
+  margin: 20px 0;
+}
+.loginBox .footer-div hr {
+  width: 40%;
+}
+
+.registerBox .footer-div {
+  display: flex;
+  margin: 10px 0;
+}
+.registerBox .footer-div hr {
+  width: 80px;
+}
+
+.form-footer p {
+  margin: 0 6px;
+  justify-self: center;
+  color: #505050;
+}
+.change{
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.loginBox .change:hover{
+  color: var(--color1hv);
+}
+.registerBox .change:hover{
+  color: var(--color3hv);
+}

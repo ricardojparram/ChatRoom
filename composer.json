@@ -1,0 +1,17 @@
+{
+    "name": "root/practica-web-socket",
+    "autoload": {
+        "psr-4": {
+            "config\\": "src/config/",
+            "controller\\" : "src/controller/",
+            "model\\" : "src/model/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ricardo Parra",
+            "email": "ricardo.prxr16@gmail.com"
+        }
+    ],
+    "require": {}
+}
