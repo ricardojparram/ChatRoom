@@ -13,5 +13,8 @@
             "email": "ricardo.prxr16@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php" : ">=7.4",
+        "cboden/ratchet": "0.4"
+    }
 }
