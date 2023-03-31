@@ -6,7 +6,7 @@ main {
   display: flex;
   flex-direction: column;
   height: 60vh;
-  width: 60vh;
+  width: 40vw;
   background-color: white;
   box-shadow: 11px 11px 0px 0px #9f9f9f;
   border-radius: 20px;
@@ -24,8 +24,7 @@ main {
   border-top-right-radius: 20px;
 }
 .container-side{
-  height: 25wvh;
-  width: 30vh;
+  width: 30vw;
   background-color: white;
   box-shadow: 11px 11px 0px 0px #9f9f9f;
   border-radius: 20px;
@@ -41,6 +40,7 @@ main {
   display: contents;
 }
 .chat-box {
+  height: -webkit-fill-available;
   border: 8px solid var(--colorinput);
   border-bottom: none;
   padding: 10px;
@@ -83,11 +83,10 @@ main {
   align-self: flex-start;
   font-size: 12px;
   font-weight: bolder;
-/*  text-decoration: underline;*/
 }
 .chat-message {
   display: flex;
-  height: 35%;
+  height: 20%;
   gap: 4px;
   border: 8px solid var(--colorinput);
   background-color: var(--colorinput);
@@ -102,13 +101,12 @@ main {
   border: none;
   background-color: var(--colorinput);
   outline: none;
-/*  border: 2px solid white;*/
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
 .chat-message textarea:hover{
   background-color: #efefef;
-  border: 1px solid #efefef;
+  
 }
 .chat-message button {
   padding: 0;
@@ -155,5 +153,43 @@ main {
   gap: 5px;
 }
 #profileImage {
-  border-radius: 20px;
+  border-radius: 50px;
+}
+
+.data-container button {
+  color: white;
+  padding: 10px;
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: bolder;
+  align-self: center;
+  background-color: var(--color5);
+  border-radius: 40px;
+  border:none;
+}
+
+@media screen and (max-width: 850px){
+  main {
+    flex-direction: column;
+  }
+  .chat-container{
+    height: 100vh;
+    height: 100dvh;
+    width: 100vw;
+  }
+  .chat-container .title {
+    border-radius: 0;
+  }
+  .chat-container .chat-message {
+    border-radius: 0;
+  }
+  .right-boxes{
+    display: none;
+  }
+  textarea {
+    font-size: 25px;
+  }
+  .chat-box {
+    font-size: 20px;
+  }
 }
