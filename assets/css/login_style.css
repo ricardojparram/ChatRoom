@@ -1,3 +1,16 @@
+.container{
+  height: 50vh;
+  width: 50vh;
+  background-color: white;
+  box-shadow: 11px 11px 0px 0px #9f9f9f;
+  border-radius: 20px;
+}
+.container-box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5%;
+}
 .loginBox .title{
   padding: 15px 0;
   text-align: center;
@@ -23,7 +36,6 @@
   font-weight: bolder;
 }
 .form-container{
-  height: 35vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -142,4 +154,45 @@
 }
 .registerBox .change:hover{
   color: var(--color3hv);
+}
+
+@media screen and (max-width: 700px) {
+  .container{
+    height: 100vh !important;
+    width: 100vw !important;
+    border-radius: 0;
+  }
+  .container-box .title{
+    padding: 15px 0;
+    border-radius: 0;
+  }
+  .form-container {
+    margin: 10vh 0;
+  }
+  .form-container form {
+    display: grid;
+    width: 80%;
+  }
+  .form-container input {
+    width: 95% !important;
+    height: 45px !important;
+    font-size: 25px !important;
+  }
+  .form-container label {
+    margin-top: 10px !important;
+    font-size: 25px !important;
+  }
+  .container-box .button{
+    font-size: 25px !important;
+    width: 200px !important;
+    height: 45px !important;
+    border-radius: 20px !important; 
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .container {
+    height: 73vh;
+    width: 73vh;
+  }
 }

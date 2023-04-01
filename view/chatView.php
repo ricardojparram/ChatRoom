@@ -55,7 +55,7 @@
 
 	</main>
 
-
+	<script>const socket_front = "<?= SOCKET_FRONT ?>"</script>
 	<script src="assets/js/jquery-3.6.0.js"></script>
 	<script src="assets/js/sweetalert2@11.js"></script>
 	<script src="assets/js/validations.js"></script>

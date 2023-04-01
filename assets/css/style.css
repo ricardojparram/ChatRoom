@@ -22,14 +22,6 @@ body{
   background-color: #f1f1f1;
   font-family: 'Cutive Mono', monospace;
 }
-.container{
-  height: 50vh;
-  width: 50vh;
-  background-color: white;
-  box-shadow: 11px 11px 0px 0px #9f9f9f;
-  border-radius: 20px;
-}
-
 .title h1{
   font-size: 45px;
   margin: 0px;
@@ -39,4 +31,13 @@ body{
   color: white;
   font-size: 25px;
   font-weight: bolder;
+}
+
+@media screen and (max-width: 600px){
+  .title h1 {
+    font-size: 35px;
+  }
+  .title label {
+    font-size: 20px;
+  }
 }

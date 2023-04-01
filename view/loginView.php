@@ -15,7 +15,7 @@
 		
 		<div class="container">
 			
-			<div class="loginBox">
+			<div class="loginBox container-box">
 				<div class="title">
 					<h1>Chat room</h1>
 					<label id="moduleTitle">Log In</label>
@@ -46,7 +46,7 @@
 				</div>
 			</div>	
 
-			<div class="registerBox" style="display:none;">
+			<div class="registerBox container-box" style="display:none;">
 				<div class="title">
 					<h1>Chat room</h1>
 					<label id="moduleTitle">Sign In</label>

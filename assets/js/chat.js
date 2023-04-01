@@ -6,7 +6,7 @@ $(document).ready(function(){
 		user = JSON.parse(response);		
 	})
 
-	let conex = new WebSocket('ws://localhost:1616');
+	let conex = new WebSocket(`ws://${socket_front}`);
 
 	conex.onopen = function(e) {
 		console.log("Connection established!");
@@ -16,6 +16,8 @@ $(document).ready(function(){
 		let response = JSON.parse(e.data);
 		let msg = `<div class="msg"><p class="username">${response.username}:</p><p>${response.message}</p></div>`;
 		$('.chat-box').append(msg);
+		let msgBox = $('.chat-box')[0];
+		msgBox.scrollTop = msgBox.scrollHeight;
 	};
 
 	$('#msg').on('keydown', function(e){

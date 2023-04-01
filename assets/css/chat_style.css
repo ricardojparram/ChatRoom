@@ -6,6 +6,7 @@ main {
   display: flex;
   flex-direction: column;
   height: 60vh;
+  max-height: 1200px;
   width: 40vw;
   background-color: white;
   box-shadow: 11px 11px 0px 0px #9f9f9f;
@@ -193,3 +194,4 @@ main {
     font-size: 20px;
   }
 }
+
