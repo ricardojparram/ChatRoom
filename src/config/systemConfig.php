@@ -7,6 +7,9 @@
 	define('DB_PASS', '');
 	define('URL_', 'http://localhost/practicaWebSocket/');
 	define('LOCAL_', 'localhost');
+	define('SOCKET_IP', '10.42.0.1');
+	define('SOCKET_PORT', '1616');
+	define('SOCKET_FRONT', '10.42.0.1:1616');
 
 	class systemConfig{
 
@@ -30,6 +33,12 @@
 		}
 		public function _LOCAL_(){
 			return LOCAL_;
+		}
+		public function _SOCKET_IP(){
+			return SOCKET_IP;
+		}
+		public function _SOCKET_PORT(){
+			return SOCKET_PORT;
 		}
 
 	}
