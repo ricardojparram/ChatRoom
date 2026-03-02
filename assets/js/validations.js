@@ -6,55 +6,57 @@ const regExp = {
 	string: /^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s,.-]){3,50}$/
 }
 
-function validUser(input){
+function validUser(input) {
 	let val = input.val();
 
-	if(val == null || val == ""){
-		input.css({'border' : '2px solid #e7181b'});
+	if (val == null || val == "") {
+		input.css({ 'border': '2px solid #e7181b' });
 		return false
-	}else if(val.length < 4 || val.length > 25){
-		input.css({'border' : '2px solid #e7181b'});
+	} else if (val.length < 4 || val.length > 25) {
+		input.css({ 'border': '2px solid #e7181b' });
 		return false
-	}else{
-		input.css({'border' : 'none'})
-		return true		
+	} else {
+		input.css({ 'border': 'none' })
+		return true
 	}
 }
 
-function validPass(input){
+function validPass(input) {
 	let val = input.val();
 
-	if(val == null || val == ""){
-		input.css({'border' : '2px solid #e7181b'});
+	if (val == null || val == "") {
+		input.css({ 'border': '2px solid #e7181b' });
 		return false
-	}else if(val.length < 4 || val.length > 25){
-		input.css({'border' : '2px solid #e7181b'});
+	} else if (val.length < 4 || val.length > 25) {
+		input.css({ 'border': '2px solid #e7181b' });
 		return false
-	}else{
-		input.css({'border' : 'none'})
-		return true		
+	} else {
+		input.css({ 'border': 'none' })
+		return true
 	}
 }
 
-function validRepass(input, input2){
+function validRepass(input, input2) {
 	let pass = input.val();
 	let repass = input2.val();
 
-	if(repass == null || repass == ""){
-		input2.css({'border' : '2px solid #e7181b'})
+	if (repass == null || repass == "") {
+		input2.css({ 'border': '2px solid #e7181b' })
 		return false
-	}else if(pass != repass){
-		input2.css({'border' : '2px solid #e7181b'})
+	} else if (pass != repass) {
+		input2.css({ 'border': '2px solid #e7181b' })
 		return false
-	}else{
-		input2.css({'border' : 'none'})
+	} else {
+		input2.css({ 'border': 'none' })
 		return true
 	}
 }
 
 const alert = Swal.mixin({
-				toast: true,
-				position: 'top-end',
-				showConfirmButton: false,
-				timer: 2000,
-			})
+	toast: true,
+	position: 'top-end',
+	showConfirmButton: false,
+	timer: 2500,
+	customClass: { popup: 'swal-retro' },
+	zIndex: 99999,
+})

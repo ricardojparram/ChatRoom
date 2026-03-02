@@ -1,198 +1,201 @@
-.container{
-  height: 50vh;
-  width: 50vh;
-  background-color: white;
-  box-shadow: 11px 11px 0px 0px #9f9f9f;
-  border-radius: 20px;
+/* ─── Login / Register Window ──────────────────────────────────────────── */
+.container {
+  background-color: var(--bg2);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow-off);
+  min-width: 340px;
+  width: 380px;
 }
+
 .container-box {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 5%;
 }
-.loginBox .title{
-  padding: 15px 0;
+
+/* ─── Title bars ────────────────────────────────────────────────────────── */
+.loginBox .title {
+  padding: 14px 0 10px;
   text-align: center;
-  background-color: var(--color1);
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  background-color: var(--title-chat);
+  border-bottom: 2px solid var(--border);
 }
-.registerBox .title{
-  padding: 15px 0;
+
+.registerBox .title {
+  padding: 14px 0 10px;
   text-align: center;
-  background-color: var(--color3);
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  background-color: var(--title-reg);
+  border-bottom: 2px solid var(--border);
 }
-.title h1{
-  font-size: 45px;
-  margin: 5px;
-  color: white;
-}
-.title label {
-  color: white;
-  font-size: 25px;
-  font-weight: bolder;
-}
-.form-container{
+
+/* ─── Form ──────────────────────────────────────────────────────────────── */
+.form-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px 0 10px;
 }
+
 .form-container form {
   display: grid;
-  width: 70%;
+  width: 78%;
+  gap: 4px;
 }
 
-.loginBox .form-container label {
-  padding-left: 12px;
-  font-size: 20px;
-  color: #505050;
-  font-weight: bold;
+.form-container label {
+  padding-left: 2px;
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-top: 10px;
 }
-.loginBox .form-container input{
-  background: #dfdfdf;
-  border: none;
+
+.form-container input {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
   padding: 0 10px;
   width: 100%;
-  height: 35px;
-  font-size: 25px;
-  border-radius: 20px;
+  height: 38px;
+  font-size: 16px;
+  font-family: 'Cutive Mono', monospace;
+  color: var(--text);
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.07);
 }
 
-.registerBox .form-container label {
-  padding-left: 12px;
-  font-size: 15px;
-  color: #505050;
-  font-weight: bold;
+.form-container input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 0;
 }
-.registerBox .form-container input{
-  background: #dfdfdf;
+
+/* Password wrapper with toggle button */
+.pass-wrap {
+  display: flex;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.07);
+}
+
+.pass-wrap input {
   border: none;
-  padding: 0 10px;
-  width: 100%;
-  height: 35px;
-  font-size: 20px;
-  border-radius: 20px;
+  box-shadow: none;
+  flex: 1;
+  height: 38px;
 }
 
-.loginBox .form-container input:focus-visible{
-  outline: var(--color1) solid 2px;
+.pass-wrap input:focus-visible {
+  outline: none;
 }
-.registerBox .form-container input:focus-visible{
-  outline: var(--color3) solid 2px;
+
+.pass-wrap:focus-within {
+  outline: 2px solid var(--accent);
 }
-#button-container{
+
+.pass-toggle {
+  background: none;
+  border: none;
+  border-left: 1px solid var(--border);
+  padding: 0 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.pass-toggle:hover {
+  color: var(--text);
+}
+
+/* ─── Button ─────────────────────────────────────────────────────────────── */
+#button-container {
   display: grid;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 18px;
+  margin-bottom: 6px;
 }
-#button-container p {
-  margin: 2px;
-  justify-self: center;
-}
-.loginBox .button{
-  font-size: 20px;
+
+.button {
+  font-size: 16px;
+  font-family: 'Cutive Mono', monospace;
   font-weight: bolder;
   color: white;
-  background-color: var(--color1);
-  border: none;
+  background-color: var(--btn-bg);
+  border: 1px solid var(--border);
+  box-shadow: 3px 3px 0 var(--border);
   width: 150px;
   height: 40px;
-  border-radius: 20px;
-}
-.loginBox .button:hover{
-  background-color: var(--color1hv);
-}
-.registerBox .button{
-  font-size: 15px;
-  font-weight: bolder;
-  color: white;
-  background-color: var(--color3);
-  border: none;
-  width: 150px;
-  height: 35px;
-  border-radius: 20px;
-}
-.registerBox .button:hover{
-  background-color: var(--color3hv);
-}
-.form-footer{
-  display: grid;
-  justify-content: center;
-  font-size: 17px;
-}
-.loginBox .footer-div {
-  display: flex;
-  margin: 20px 0;
-}
-.loginBox .footer-div hr {
-  width: 40%;
+  cursor: pointer;
 }
 
-.registerBox .footer-div {
-  display: flex;
-  margin: 10px 0;
+.button:hover {
+  background-color: var(--btn-hover);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--border);
 }
-.registerBox .footer-div hr {
-  width: 80px;
+
+/* ─── Footer / Switch ───────────────────────────────────────────────────── */
+.form-footer {
+  display: grid;
+  justify-content: center;
+  font-size: 15px;
+  padding-bottom: 18px;
+}
+
+.footer-div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 8px;
+  color: var(--text-muted);
+}
+
+.footer-div hr {
+  flex: 1;
+  border: none;
+  border-top: 1px solid var(--border);
+  opacity: 0.4;
 }
 
 .form-footer p {
-  margin: 0 6px;
+  margin: 0 4px;
   justify-self: center;
-  color: #505050;
+  color: var(--text-muted);
 }
-.change{
+
+.change {
   text-decoration: underline;
   font-weight: bold;
+  cursor: pointer;
+  color: var(--text-muted);
 }
 
-.loginBox .change:hover{
-  color: var(--color1hv);
-}
-.registerBox .change:hover{
-  color: var(--color3hv);
+.change:hover {
+  color: var(--btn-hover);
 }
 
-@media screen and (max-width: 700px) {
-  .container{
-    height: 100vh !important;
-    width: 100vw !important;
-    border-radius: 0;
-  }
-  .container-box .title{
-    padding: 15px 0;
-    border-radius: 0;
-  }
-  .form-container {
-    margin: 10vh 0;
-  }
-  .form-container form {
-    display: grid;
-    width: 80%;
-  }
-  .form-container input {
-    width: 95% !important;
-    height: 45px !important;
-    font-size: 25px !important;
-  }
-  .form-container label {
-    margin-top: 10px !important;
-    font-size: 25px !important;
-  }
-  .container-box .button{
-    font-size: 25px !important;
-    width: 200px !important;
-    height: 45px !important;
-    border-radius: 20px !important; 
-  }
-}
-
-@media screen and (max-height: 800px) {
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media screen and (max-width: 500px) {
   .container {
-    height: 73vh;
-    width: 73vh;
+    width: 100vw;
+    min-width: unset;
+    border: none;
+    box-shadow: none;
+  }
+
+  .form-container form {
+    width: 85%;
+  }
+
+  .form-container input {
+    height: 42px !important;
+    font-size: 18px !important;
+  }
+
+  .form-container label {
+    font-size: 18px !important;
+  }
+
+  .button {
+    font-size: 18px !important;
+    width: 180px !important;
+    height: 44px !important;
   }
 }
