@@ -1,0 +1,5 @@
+FROM mysql:8.0
+
+# Copiar el script SQL dentro de la imagen con permisos correctos
+COPY docker/init.sql /docker-entrypoint-initdb.d/init.sql
+RUN chmod 644 /docker-entrypoint-initdb.d/init.sql

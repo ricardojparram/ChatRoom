@@ -1,0 +1,20 @@
+FROM php:8.1-cli
+
+# Instalar extensiones PHP necesarias para la conexión MySQL y Ratchet
+RUN docker-php-ext-install pdo pdo_mysql sockets
+
+# Instalar Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copiar el proyecto al contenedor
+COPY . /var/www/html/
+
+WORKDIR /var/www/html
+
+# Instalar dependencias si no existe vendor/
+RUN if [ ! -d "vendor" ]; then composer install --no-dev --optimize-autoloader; fi
+
+EXPOSE 1616
+
+# Ejecutar el servidor WebSocket de Ratchet
+CMD ["php", "src/config/chat-server.php"]

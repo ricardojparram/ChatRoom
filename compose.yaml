@@ -1,0 +1,71 @@
+name: chatroom
+
+services:
+
+  # ─── Base de datos MySQL ───────────────────────────────────────────────────
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    container_name: chatroom-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS:-rootpass}
+      MYSQL_DATABASE:      ${DB_NAME:-chat}
+      MYSQL_USER:          ${DB_USER:-chatuser}
+      MYSQL_PASSWORD:      ${DB_PASS:-chatpass}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASS:-rootpass}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - chatroom-net
+
+  # ─── Aplicación web PHP + Apache ──────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: chatroom-app
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      DB_NAME:       ${DB_NAME:-chat}
+      DB_USER:       ${DB_USER:-chatuser}
+      DB_PASS:       ${DB_PASS:-chatpass}
+      DB_HOST:       db
+      APP_URL:       ${APP_URL:-http://localhost/}
+      SOCKET_FRONT:  ${SOCKET_FRONT:-localhost:1616}
+      SOCKET_IP:     ${SOCKET_IP:-0.0.0.0}
+      SOCKET_PORT:   ${SOCKET_PORT:-1616}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - chatroom-net
+
+  # ─── Servidor WebSocket (Ratchet) ─────────────────────────────────────────
+  websocket:
+    build:
+      context: .
+      dockerfile: Dockerfile.websocket
+    container_name: chatroom-ws
+    restart: unless-stopped
+    ports:
+      - "1616:1616"
+    environment:
+      SOCKET_IP:    0.0.0.0
+      SOCKET_PORT:  ${SOCKET_PORT:-1616}
+    networks:
+      - chatroom-net
+
+volumes:
+  db_data:
+
+networks:
+  chatroom-net:
+    driver: bridge
