@@ -41,7 +41,7 @@
 		</div>
 
 
-		<div style="" class="right-boxes">
+		<div class="right-boxes">
 			<div class="container-side">
 				<div class="title">
 					<h1>Profile</h1>
@@ -56,6 +56,28 @@
 					<hr>
 					<button id="logout">Log out</button>
 				</div>
+			</div>
+
+			<div class="container-side container-online">
+				<div class="title">
+					<h1>Online</h1>
+					<label><span id="online-count">0</span> connected</label>
+				</div>
+				<ul id="online-users"></ul>
+			</div>
+		</div>
+
+		<!-- ── DM Overlay ──────────────────────────────────────────────── -->
+		<div id="dm-overlay" class="hidden">
+			<div id="dm-window">
+				<div id="dm-header">
+					<div class="dm-title-row">
+						<span id="dm-title">◆ Direct Messages</span>
+						<button id="dm-close" title="Close">✕</button>
+					</div>
+					<div id="dm-tabs"></div>
+				</div>
+				<div id="dm-conversations"></div>
 			</div>
 		</div>
 

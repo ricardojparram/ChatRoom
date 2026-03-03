@@ -24,14 +24,13 @@ $(document).ready(function () {
 		return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 	}
 
-	// ── Renderizar mensaje ───────────────────────────────────────────────────
+	// ── Renderizar mensaje de chat general ───────────────────────────────────
 	function renderMessage(id, username, message, isMe, edited, createdAt, deleted) {
 		let idAttr = id ? `data-id="${id}"` : '';
 		let time = createdAt ? `<span class="msg-time">${escapeHtml(formatTime(createdAt))}</span>` : '';
 
 		let html;
 		if (deleted) {
-			// Soft-deleted: mostrar placeholder, sin botones
 			let deletedClass = isMe ? 'msg me deleted' : 'msg deleted';
 			html = `
 				<div class="${deletedClass}" ${idAttr}>
@@ -135,7 +134,6 @@ $(document).ready(function () {
 			contentType: 'application/json',
 			data: JSON.stringify({ id: msgId }),
 			success: function () {
-				// Convertir in-place a "Deleted message"
 				msgDiv.addClass('deleted');
 				msgDiv.find('.msg-text').remove();
 				msgDiv.find('.msg-footer').html(
@@ -179,6 +177,8 @@ $(document).ready(function () {
 		let waitUser = setInterval(function () {
 			if (user !== undefined) {
 				clearInterval(waitUser);
+				// Anunciarse al servidor con el username
+				conex.send(JSON.stringify({ type: 'join', username: user }));
 				loadHistory();
 			}
 		}, 50);
@@ -186,11 +186,191 @@ $(document).ready(function () {
 
 	conex.onmessage = function (e) {
 		let response = JSON.parse(e.data);
+
+		// Lista de usuarios conectados
+		if (response.type === 'user_list') {
+			renderUserList(response.users);
+			return;
+		}
+
+		// DM recibido
+		if (response.type === 'dm') {
+			openDMPanel(response.from);
+			appendDMMessage(response.from, response.from, response.message, false);
+			flashDMTab(response.from);
+			return;
+		}
+
+		// Confirmación de DM enviado
+		if (response.type === 'dm_sent') {
+			appendDMMessage(response.to, user, response.message, true);
+			return;
+		}
+
+		// Error de DM
+		if (response.type === 'dm_error') {
+			showDMError(response.error);
+			return;
+		}
+
+		// Mensaje normal de chat
 		renderMessage(null, response.username, response.message, false, false, new Date().toISOString(), false);
 		scrollBottom();
 	};
 
-	// ── Enviar ───────────────────────────────────────────────────────────────
+	// ── Lista de usuarios online ─────────────────────────────────────────────
+	function renderUserList(users) {
+		let list = $('#online-users');
+		list.empty();
+		users.forEach(function (u) {
+			if (u === user) {
+				// Yo mismo — sin link DM
+				list.append(`<li class="online-user-item me"><span class="online-dot"></span>${escapeHtml(u)} <em>(you)</em></li>`);
+			} else {
+				list.append(`<li class="online-user-item" data-username="${escapeHtml(u)}"><span class="online-dot"></span>${escapeHtml(u)}</li>`);
+			}
+		});
+		$('#online-count').text(users.length);
+	}
+
+	// Clic en usuario → abrir DM
+	$(document).on('click', '.online-user-item[data-username]', function () {
+		let target = $(this).data('username');
+		openDMPanel(target);
+	});
+
+	// ── DM Panel ─────────────────────────────────────────────────────────────
+	// dmPanels = { username: { messages: [] } }
+	let dmPanels = {};
+	let activeDM = null;
+
+	function openDMPanel(withUser) {
+		let overlay = $('#dm-overlay');
+		overlay.removeClass('hidden');
+
+		// Crear tab si no existe
+		if (!dmPanels[withUser]) {
+			dmPanels[withUser] = { messages: [] };
+			addDMTab(withUser);
+			addDMConversation(withUser);
+		}
+		switchDMTab(withUser);
+	}
+
+	function addDMTab(withUser) {
+		let tab = $(`<button class="dm-tab" data-dm="${escapeHtml(withUser)}">${escapeHtml(withUser)}<span class="dm-tab-close" data-dm="${escapeHtml(withUser)}">✕</span></button>`);
+		$('#dm-tabs').append(tab);
+	}
+
+	function addDMConversation(withUser) {
+		let conv = $(`
+			<div class="dm-conversation hidden" data-dm="${escapeHtml(withUser)}">
+				<div class="dm-box"></div>
+				<div class="dm-input-row">
+					<textarea class="dm-textarea" placeholder="Message ${escapeHtml(withUser)}..."></textarea>
+					<button class="dm-send-btn" data-dm="${escapeHtml(withUser)}"><span class="material-icons">send</span></button>
+				</div>
+			</div>
+		`);
+		$('#dm-conversations').append(conv);
+	}
+
+	function switchDMTab(withUser) {
+		activeDM = withUser;
+		// Tabs
+		$('.dm-tab').removeClass('active');
+		$(`.dm-tab[data-dm="${withUser}"]`).addClass('active').removeClass('unread');
+		// Conversaciones
+		$('.dm-conversation').addClass('hidden');
+		$(`.dm-conversation[data-dm="${withUser}"]`).removeClass('hidden');
+		// Focus textarea
+		$(`.dm-conversation[data-dm="${withUser}"] .dm-textarea`).focus();
+	}
+
+	function appendDMMessage(withUser, fromUser, message, isMe) {
+		let box = $(`.dm-conversation[data-dm="${withUser}"] .dm-box`);
+		let now = formatTime(new Date().toISOString());
+		let cls = isMe ? 'dm-msg dm-me' : 'dm-msg';
+		let nameHtml = isMe ? '' : `<p class="dm-username">${escapeHtml(fromUser)}</p>`;
+		box.append(`
+			<div class="${cls}">
+				${nameHtml}
+				<p class="dm-text">${escapeHtml(message)}</p>
+				<span class="dm-time">${now}</span>
+			</div>
+		`);
+		// Scroll al fondo
+		let boxEl = box[0];
+		boxEl.scrollTop = boxEl.scrollHeight;
+	}
+
+	function flashDMTab(withUser) {
+		if (activeDM !== withUser) {
+			$(`.dm-tab[data-dm="${withUser}"]`).addClass('unread');
+		}
+	}
+
+	function showDMError(msg) {
+		let box = $(`.dm-conversation[data-dm="${activeDM}"] .dm-box`);
+		box.append(`<div class="dm-error">⚠ ${escapeHtml(msg)}</div>`);
+	}
+
+	// ── Cerrar DM overlay ────────────────────────────────────────────────────
+	$('#dm-close').on('click', function () {
+		$('#dm-overlay').addClass('hidden');
+		activeDM = null;
+	});
+
+	// ── Cerrar tab individual ────────────────────────────────────────────────
+	$(document).on('click', '.dm-tab-close', function (e) {
+		e.stopPropagation();
+		let target = $(this).data('dm');
+		$(`.dm-tab[data-dm="${target}"]`).remove();
+		$(`.dm-conversation[data-dm="${target}"]`).remove();
+		delete dmPanels[target];
+
+		// Si no quedan tabs, cerrar overlay
+		if ($('.dm-tab').length === 0) {
+			$('#dm-overlay').addClass('hidden');
+			activeDM = null;
+		} else {
+			// Activar primer tab restante
+			let firstTab = $('.dm-tab').first().data('dm');
+			switchDMTab(firstTab);
+		}
+	});
+
+	// ── Click en tab → cambiar conversación ──────────────────────────────────
+	$(document).on('click', '.dm-tab', function () {
+		let target = $(this).data('dm');
+		if (target) switchDMTab(target);
+	});
+
+	// ── Enviar DM ────────────────────────────────────────────────────────────
+	function sendDM(toUser) {
+		let textarea = $(`.dm-conversation[data-dm="${toUser}"] .dm-textarea`);
+		let msg = textarea.val().trim();
+		if (!msg) return;
+		textarea.val('');
+		if (conex.readyState === WebSocket.OPEN) {
+			conex.send(JSON.stringify({ type: 'dm', to: toUser, message: msg }));
+		}
+	}
+
+	$(document).on('click', '.dm-send-btn', function () {
+		let toUser = $(this).data('dm');
+		sendDM(toUser);
+	});
+
+	$(document).on('keydown', '.dm-textarea', function (e) {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			let toUser = $(this).closest('.dm-conversation').data('dm');
+			sendDM(toUser);
+		}
+	});
+
+	// ── Enviar mensaje general ───────────────────────────────────────────────
 	function sendMessage() {
 		let textarea = $('#msg');
 		let msg = textarea.val().trim();
